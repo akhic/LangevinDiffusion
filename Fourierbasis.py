@@ -18,8 +18,8 @@ def generate_fourier_basis_function(coefficients, period=2 * np.pi):
     num_terms = len(coefficients)//2
     def fourier_basis_function(x):
         k = np.arange(1, num_terms+1).reshape(num_terms, 1)/period
-        return np.dot(coefficients[:num_terms].T, np.sin(np.dot(k, x.T))).T + \
-                np.dot(coefficients[num_terms:].T, np.cos(np.dot(k, x.T))).T
+        return np.dot(coefficients[::2].T, np.sin(np.dot(k, x.T))).T + \
+                np.dot(coefficients[1::2].T, np.cos(np.dot(k, x.T))).T
 
 
     return fourier_basis_function
@@ -28,8 +28,8 @@ def generate_fourier_basis_function(coefficients, period=2 * np.pi):
 if __name__ == '__main__':
     # Sample Usage, the coefficients need to be vstacked
     num_terms = 100
-    coefficients = np.array([1/i**2 for i in range(1,num_terms+1)]).reshape(num_terms,1)
-    coefficients = np.vstack([coefficients, np.array([1/i**2 for i in range(1,num_terms+1)]).reshape(num_terms,1)])
+    coefficients = np.array([1/(i//2+1)**2 for i in range(1,num_terms+1)]).reshape(num_terms,1)
+    
     f = generate_fourier_basis_function(coefficients)
     # Generate synthetic data
     # g^-1 = A'
