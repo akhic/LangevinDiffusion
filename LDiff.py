@@ -6,7 +6,7 @@ def logistic(z):
     return 1 / (1 + np.exp(-z))
  
 num_terms = 100
-coefficients = np.array([1/i**3 for i in range(1,num_terms+1)]).reshape(num_terms,1)
+coefficients = np.array([1/(i//2+1)**3 for i in range(num_terms)]).reshape(num_terms,1)
 f = generate_fourier_basis_function(coefficients)
 # Generate synthetic data
 # g^-1 = A'
@@ -66,10 +66,10 @@ def langevin_algorithm(num_samples, step_size, initial_theta, X, y):
     return np.array(samples)
 
 # Set hyperparameters
-num_samples = 10000
+num_samples = 20000
 step_size = 0.00001
 # initial_theta = np.zeros(10).reshape(10,1)  # Initial guess for coefficients
-initial_theta = np.array([1/i**3 for i in range(1,10+1)]).reshape(10,1)
+initial_theta = np.array([1/(i//2+1)**3 for i in range(10)]).reshape(10,1)
 # Run Langevin algorithm
 samples = langevin_algorithm(num_samples, step_size, initial_theta, X, y)
 
