@@ -94,12 +94,12 @@ samples = langevin_algorithm(num_samples, step_size, initial_theta, X, y)
 # plt.tight_layout()
 # plt.show()
 plt.figure(figsize=(20, 12))
-for i in range(5):
-    plt.subplot(5, 1, i+1)
+for i in range(10):
+    plt.subplot(10, 1, i+1)
     plt.plot(samples[:, i])
     plt.xlabel('Iteration')
     plt.ylabel(f'$\\theta_{i+1}$')
     plt.title(f'Sampling for $\\theta_{i+1}$')
-
+plt.savefig('PosteriorLangevin.png')
 plt.tight_layout()
 plt.show()
