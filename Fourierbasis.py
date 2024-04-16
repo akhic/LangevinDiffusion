@@ -18,21 +18,18 @@ def generate_fourier_basis_function(coefficients, period=2 * np.pi):
     num_terms = len(coefficients)//2
     def fourier_basis_function(x):
         k = np.arange(1, num_terms+1).reshape(num_terms, 1)/period
-        np.dot(coefficients[:num_terms].T, np.sin(np.dot(k, x.T))).T + np.dot(coefficients[num_terms:].T, np.cos(np.dot(k, x.T))).T
+        return np.dot(coefficients[:num_terms].T, np.sin(np.dot(k, x.T))).T + \
+                np.dot(coefficients[num_terms:].T, np.cos(np.dot(k, x.T))).T
 
-
-        # result = np.zeros_like(x)
-        # for i in range(num_terms):
-        #     result += coefficients[i] * np.sin((i + 1) * x / period)
-        # return result
 
     return fourier_basis_function
 
 
 if __name__ == '__main__':
+    # Sample Usage, the coefficients need to be vstacked
     num_terms = 100
     coefficients = np.array([1/i**2 for i in range(1,num_terms+1)]).reshape(num_terms,1)
-    coefficients = np.array([1/i**2 for i in range(1,num_terms+1)]).reshape(num_terms,1)
+    coefficients = np.vstack([coefficients, np.array([1/i**2 for i in range(1,num_terms+1)]).reshape(num_terms,1)])
     f = generate_fourier_basis_function(coefficients)
     # Generate synthetic data
     # g^-1 = A'
@@ -42,7 +39,4 @@ if __name__ == '__main__':
     period = 2 * np.pi
     xx = np.arange(0, 50,0.1)
     xx = xx.reshape(xx.shape[0],1)
-    y = f(xx)
-    # np.random.seed(42)
-    # X = 10000 * (np.random.rand(n, 1)- 0.5)
-    # y = (logistic(f(X)) +  np.random.randn(n, 1)/50 > 0.5).astype(int)
+    plt.plot(xx, f(xx))
