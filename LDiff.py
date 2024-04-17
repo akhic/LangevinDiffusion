@@ -76,7 +76,7 @@ def gradient_descent(num_iterations, step_size, initial_theta, X, y):
     samples = [theta_current]
     p = len(initial_theta)
     for i in range(num_samples):
-        grad_ll = grad_log_likelihood(theta_current, X, y)
+        grad_ll = log_likelihood(theta_current, X, y, True)
 
         theta_proposed = theta_current + step_size * grad_ll
         theta_current = theta_proposed
