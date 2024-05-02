@@ -6,12 +6,12 @@ def logistic(z):
     return 1 / (1 + np.exp(-z))
  
 num_terms = 1000
-coefficients = np.array([1/(i//2+1)**3 for i in range(num_terms)]).reshape(num_terms,1)
+coefficients = np.array([1 if i <51 else 1/(i-50)**3 for i in range(1,num_terms+1)]).reshape(num_terms,1)
 f = generate_fourier_basis_function(coefficients)
 # Generate synthetic data
 # g^-1 = A'
 
-n = 1000
+n = 10000
 alpha = 2
 period = 2 * np.pi
 # np.random.seed(42)
@@ -88,30 +88,12 @@ def gradient_descent(num_iterations, step_size, initial_theta, X, y):
 num_samples = 10000
 step_size = 0.00001
 # initial_theta = np.zeros(10).reshape(10,1)  # Initial guess for coefficients
-initial_theta = np.array([1/(i//2+1)**3 for i in range(10)]).reshape(10,1)
+
+initial_theta = coefficients[:50]
 # Run Langevin algorithm
 samples = langevin_algorithm(num_samples, step_size, initial_theta, X, y)
 samples_gd = gradient_descent(num_samples, step_size, initial_theta, X, y)
-# Plot the trace and histogram of samples
-# plt.figure(figsize=(10, 5))
-# plt.subplot(2, 1, 1)
-# plt.plot(samples[:, 0], label='Intercept')
-# plt.plot(samples[:, 1], label='Coefficient')
-# plt.xlabel('Iteration')
-# plt.ylabel('Parameter Value')
-# plt.title('Trace Plot')
-# plt.legend()
 
-# plt.subplot(2, 1, 2)
-# plt.hist(samples[:, 0], bins=30, alpha=0.5, label='Intercept')
-# plt.hist(samples[:, 1], bins=30, alpha=0.5, label='Coefficient')
-# plt.xlabel('Parameter Value')
-# plt.ylabel('Frequency')
-# plt.title('Histogram of Samples')
-# plt.legend()
-
-# plt.tight_layout()
-# plt.show()
 plt.figure(figsize=(20, 12))
 for i in range(10):
     plt.subplot(10, 1, i+1)
